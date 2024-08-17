@@ -1,0 +1,4 @@
+- name: Configure Archlinux installation
+  hosts: all
+  connection: "{{ ansible_connection or 'local' }}"
+  gather_facts: true
