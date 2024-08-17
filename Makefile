@@ -12,10 +12,22 @@ endif
 
 TARGET_PLAYBOOK := install.yml
 
-init: venv install
-	$(PYTHON) ./console.py copy -s ".env.example" -d ".env"
-	$(PYTHON) ./console.py copy -s "vault.example.yml" -d "vault.yml"
-	$(BIN)/ansible-vault encrypt "vault.yml"
+.PHONY: default
+default: run
+
+init: venv install dotenv
+
+venv:
+	$(PYTHON) -m venv $(VENV)
+
+install:
+	$(BIN)/pip install -r requirements.txt
+
+dotenv:
+	$(PYTHON) -c 'import os,shutil; shutil.copy(".env.example",".env") if not os.path.exists(".env") else None'
+
+run:
+	# TODO
 
 dev:
 	ANSIBLE_HOST_KEY_CHECKING=False \
