@@ -1,0 +1,60 @@
+- name: Setup timezone
+  community.general.timezone:
+    name: "{{ general_timezone }}"
+    hwclock: "local"
+  notify:
+    - Restart Cron
+
+- name: Enable NTP (Network Time Protocol)
+  ansible.builtin.systemd:
+    name: systemd-timesyncd
+    enabled: true
+    state: started
+
+- name: Ensure locale
+  community.general.locale_gen:
+    name: "{{ general_locale }}"
+    state: present
+
+- name: Set console layout
+  ansible.builtin.shell: "loadkeys {{ general_keymap }}"
+  args:
+    executable: "/bin/bash"
+
+- name: Set console font
+  ansible.builtin.shell: "setfont {{ general_consolefont }}"
+  args:
+    executable: "/bin/bash"
+- name: Configure hosts file
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    line: "127.0.0.1 {{ general_hostname }}"
+    state: present
+
+- name: Adjust sysctl.conf
+  ansible.posix.sysctl:
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
+    state: "present"
+    reload: true
+  with_dict: "{{ general_sysctl_config }}"
+
+- name: Create persistent console configuration
+  ansible.builtin.template:
+    src: "{{ role_path }}/templates/vconsole.conf.j2"
+    dest: "/etc/vconsole.conf"
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Setup hostname
+  ansible.builtin.hostname:
+    name: "{{ general_hostname }}"
+
+- name: Configure hostname
+  ansible.builtin.template:
+    src: "{{ role_path }}/templates/hostname.j2"
+    dest: "/etc/hostname"
+    owner: root
+    group: root
+    mode: "0644"

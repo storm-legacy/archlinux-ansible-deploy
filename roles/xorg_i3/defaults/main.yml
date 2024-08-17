@@ -1,0 +1,24 @@
+xorg_i3_packages:
+  - "xorg-server"
+  - "xorg-apps"
+  - "xorg-xinit"
+  - "i3-wm"
+  - "polybar"
+
+xorg_i3_fonts_packages:
+  - "ttf-fira-code"
+  - "ttf-fira-mono"
+  - "ttf-font-awesome"
+  - "ttf-hack"
+  - "ttf-liberation"
+  - "ttf-meslo-nerd"
+  - "ttf-firacode-nerd"
+  - "ttf-jetbrains-mono-nerd"
+  - "ttf-nerd-fonts-symbols-common"
+  - "ttf-nerd-fonts-symbols-mono"
+  - "ttf-noto-nerd"
+  - "ttf-ubuntu-nerd"
+
+xorg_i3_keymap: "pl"
+
+xorg_i3_user_home: "/home/{{ general_username }}"

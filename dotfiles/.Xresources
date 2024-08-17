@@ -1,0 +1,79 @@
+! Special
+URxvt.geometry: 80x240+0+0
+URxvt.internalBorder:  8
+URxvt.scrollstyle: plain
+
+! Background
+URxvt.foreground:   #E5E9F0
+URxvt.background: 	[75]#000000
+URxvt.cursorColor:  #E5E9F0
+URxvt.depth: 32
+
+! black
+URxvt.color0: #2E3440
+URxvt.color8: #4C566A
+
+! red
+URxvt.color1: #88C0D0
+URxvt.color9: #88C0D0
+
+! green
+URxvt.color2:  #BF616A
+URxvt.color10: #BF616A
+
+! yellow
+URxvt.color3:  #5E81AC
+URxvt.color11: #5E81AC
+
+! blue
+URxvt.color4:  #EBCB8B
+URxvt.color12: #EBCB8B
+
+! magenta
+URxvt.color5:  #A3BE8C
+URxvt.color13: #A3BE8C
+
+! cyan
+URxvt.color6:  #D08770
+URxvt.color14: #D08770
+
+! white
+URxvt.color7:  #E5E9F0
+URxvt.color15: #8FBCBB
+
+! transparency (fake)
+!URxvt.shading: 30
+!URxvt.transparent: true
+!URxvt.blurRadius: 5
+
+! Fonts
+URxvt.font: \
+ xft:Fira Mono:pixelsize=14, \
+ xft:MesloLGSNF-Regular:pixelsize=14
+
+URxvt.boldfont: \
+ xft:Fira Mono:pixelsize=14, \
+ xft:SMesloLGSNF-Regular:pixelsize=14
+
+! URLs
+URxvt.url-launcher: xdg-open
+URxvt.matcher.button: 2
+URxvt.keysym.M-u: perl:matcher:select
+
+! Resize fonts on the fly
+URxvt.keysym.C-minus:  resize-font:smaller
+!URxvt.keysym.C-plus:   resize-font:bigger
+URxvt.keysym.C-equal:  resize-font:bigger
+
+! Disable ISO 14755 unicode input so we can use Ctrl-Shift bindings
+URxvt.iso14755:        false
+URxvt.iso14755_52:     false
+
+! Disable Ctrl-Alt-c & Ctrl-Alt-v bindings (optional)
+URxvt.keysym.C-M-c:    builtin-string:
+URxvt.keysym.C-M-v:    builtin-string:
+
+! Bind Ctrl-Shift-c & Ctrl-Shift-v to copy and paste
+! I dont know why, but I needed to use hex keysym values to get it to work
+URxvt.keysym.C-S-0x43: eval:selection_to_clipboard
+URxvt.keysym.C-S-0x56: eval:paste_clipboard

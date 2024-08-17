@@ -1,0 +1,33 @@
+- name: Install Xorg + i3 packages
+  community.general.pacman:
+    name: "{{ xorg_i3_packages }}"
+    state: "latest"
+
+- name: Configure default keyboard layout
+  ansible.builtin.template:
+    src: "{{ role_path }}/templates/X11/xorg.conf.d/10-keyboard.conf.j2"
+    dest: "/etc/X11/xorg.conf.d/10-keyboard.conf"
+    mode: "0600"
+    owner: "root"
+    group: "root"
+
+- name: Configure mouse behaviour
+  ansible.builtin.copy:
+    src: "{{ role_path }}/files/X11/xorg.conf.d/40-libinput.conf"
+    dest: "/etc/X11/xorg.conf.d/40-libinput.conf"
+    mode: "0600"
+    owner: "root"
+    group: "root"
+
+- name: Install general packages
+  community.general.pacman:
+    name: "{{ xorg_i3_fonts_packages }}"
+    state: latest
+
+- name: Install .xinitrc for the user
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/dotfiles/.xinitrc"
+    dest: "{{ general_user_home }}/.xinitrc"
+    mode: "0640"
+    owner: "{{ general_username }}"
+    group: "{{ general_username }}"

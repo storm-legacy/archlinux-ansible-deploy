@@ -2,3 +2,8 @@
   hosts: all
   connection: "{{ ansible_connection or 'local' }}"
   gather_facts: true
+  become: true
+  roles:
+    - general
+    - xorg_i3
+    - autologin

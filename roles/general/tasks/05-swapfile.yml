@@ -1,0 +1,36 @@
+# (simplified version)
+# Inspired by
+# https://github.com/nickjj/ansible-swapfile/tree/master
+- name: Check if swapfile exists
+  ansible.builtin.stat:
+    path: "{{ general_swapfile_path }}"
+  register: swap_info
+  ignore_errors: true
+
+- name: Create swapfile if it doesn't exist
+  community.general.filesize:
+    path: "{{ general_swapfile_path }}"
+    size: "{{ general_swapfile_size }}M"
+    mode: "0600"
+    owner: "root"
+    group: "root"
+  when: not swap_info.stat.exists
+
+- name: Initialize swapfile
+  community.general.filesystem:
+    fstype: swap
+    dev: "{{ general_swapfile_path }}"
+    state: present
+
+- name: Manage swap file in /etc/fstab
+  ansible.posix.mount:
+    src: "{{ general_swapfile_path }}"
+    path: "none"
+    fstype: "swap"
+    opts: "sw,nofail"
+    dump: "0"
+    passno: "0"
+    state: "present"
+    backup: true
+  notify:
+    - Mount swap

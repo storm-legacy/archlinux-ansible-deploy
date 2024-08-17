@@ -1,0 +1,56 @@
+general_install_packages:
+  - "base"
+  - "base-devel"
+  - "linux"
+  - "linux-firmware"
+  - "amd-ucode"
+  - "intel-ucode"
+  - "ntfs-3g"
+  - "bridge-utils"
+  - "man"
+  - "man-db"
+  - "man-pages"
+  - "networkmanager"
+  - "curl"
+  - "gnupg"
+  - "sudo"
+  - "htop"
+  - "rsync"
+  - "wget"
+  - "rxvt-unicode"
+
+general_tools_packages:
+  - "chromium"
+  - "feh"
+  - "ffmpeg"
+  - "font-manager"
+  - "git"
+  - "keepassxc"
+  - "make"
+  - "notepadqq"
+  - "p7zip"
+  - "sshpass"
+  - "sqlite"
+  - "tmux"
+  - "vlc"
+  - "vim"
+  - "zsh"
+
+general_hostname: "my-arch-install"
+general_username: "user"
+general_password: "$6$eYvS1HV.5JcBhmKg$40QD8SEDIYSL4mdsyhbX6lRGmRyhphk6FEV8qCvYWwBTu5/iVykCrV0yIaeT18J/GihbJ7oAK3h0xIlMgzH9l." # Qwerty123!
+general_user_home: "/home/{{ general_username }}"
+
+general_sysctl_config:
+  "vm.swappiness": "25"
+  "vm.vfs_cache_pressure": "100"
+
+general_swapfile_size: "{{ ((ansible_memtotal_mb | int / 2) if (ansible_memtotal_mb | int >= 2048) else '2048') }}"
+general_swapfile_path: "/swap.img"
+
+general_keymap: "pl"
+general_consolefont: "Lat2-Terminus16"
+general_keymap_map: "Lat2-Terminus16"
+
+general_locale: "en_US.UTF-8"
+general_timezone: "Europe/Warsaw"

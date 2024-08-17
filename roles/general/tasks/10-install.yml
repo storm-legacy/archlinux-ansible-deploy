@@ -1,0 +1,19 @@
+# - name: Refresh pacman keys (pacman-key --refresh-keys)
+#   ansible.builtin.shell: pacman-key --refresh-keys
+#   args:
+#     executable: "/bin/bash"
+
+- name: Update system packages (pacman -Syu)
+  community.general.pacman:
+    update_cache: true
+    upgrade: true
+
+- name: Install general packages
+  community.general.pacman:
+    name: "{{ general_install_packages }}"
+    state: latest
+
+- name: Install tools
+  community.general.pacman:
+    name: "{{ general_tools_packages }}"
+    state: latest

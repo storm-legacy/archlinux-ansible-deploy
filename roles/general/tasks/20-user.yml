@@ -1,0 +1,35 @@
+- name: Create sudo group
+  ansible.builtin.group:
+    name: sudo
+    system: true
+    state: present
+
+- name: Update sudoers
+  ansible.builtin.copy:
+    src: "{{ role_path }}/files/20-sudo.conf"
+    dest: "/etc/sudoers.d/20-sudo.conf"
+    mode: "0600"
+    owner: root
+    group: root
+    validate: /usr/sbin/visudo -cf %s
+
+- name: Create user
+  ansible.builtin.user:
+    name: "{{ general_username }}"
+    groups:
+      - sudo
+      - adm
+      - lp
+      - users
+    append: true
+    shell: /bin/zsh
+    home: "{{ general_user_home }}"
+    createhome: true
+    password_lock: false
+    password: "{{ general_password }}"
+    state: present
+
+- name: Disable root login
+  ansible.builtin.user:
+    name: root
+    password_lock: true

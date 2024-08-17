@@ -1,0 +1,9 @@
+- name: Restart Cron
+  ansible.builtin.systemd_service:
+    name: cron
+    state: restarted
+
+- name: Mount swap
+  ansible.builtin.command: "swapon {{ general_swapfile_path }}"
+  register: swapon_output
+  changed_when: swapon_output.rc == 0

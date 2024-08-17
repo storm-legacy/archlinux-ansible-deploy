@@ -1,0 +1,30 @@
+- name: Ensure directory
+  ansible.builtin.file:
+    path: "/etc/systemd/system/getty@tty1.service.d"
+    mode: '0640'
+    owner: "root"
+    group: "root"
+    state: directory
+    recurse: true
+
+- name: Configure autologin with getty
+  ansible.builtin.template:
+    src: "{{ role_path }}/templates/getty_tty1_service_override.conf.j2"
+    dest: "/etc/systemd/system/getty@tty1.service.d/override.conf"
+    mode: '0640'
+    owner: "root"
+    group: "root"
+  notify:
+    - Reload systemd daemon
+
+
+- name: Append autostart on login to .zprofile
+  ansible.builtin.lineinfile:
+    dest: "{{ general_user_home }}/.zprofile"
+    line: "{{ lookup('file', '{{ role_path }}/files/.zprofile') }}"
+    insertafter: EOF
+    create: true
+    owner: "{{ general_username }}"
+    group: "{{ general_username }}"
+    mode: '0640'
+    state: present
